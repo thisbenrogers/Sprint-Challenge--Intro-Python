@@ -6,6 +6,12 @@ class City:
         self.lat = lat
         self.lon = lon
 
+    def __str__(self):
+      return f"City(\"{self.name}\", {float(self.lat)}, {float(self.lon)})"
+
+    def __repr__(self):
+        return {'name': self.name, 'lat': self.lat, 'lon': self.lon}
+
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
 #
@@ -25,7 +31,15 @@ def cityreader(cities=[]):
   # Ensure that the lat and lon valuse are all floats
   # For each city record, create a new City instance and add it to the 
   # `cities` list
+    with open("cities.csv", newline='') as city_file:
+        import csv
+        all_cities = csv.reader(city_file, delimiter=',')
+        for row in all_cities:
+            new_city = City(row[0], row[3], row[4])
+            cities.append(new_city)
     
+    del cities[0]
+
     return cities
 
 cityreader(cities)
